@@ -1,0 +1,11 @@
+model_version = '1.0.2'
+spatial_res = 0.00017966305690109152
+temporal_res = 1
+grid_width = 1008
+grid_height = 1071
+start_time = datetime.datetime(2014, 10, 3, 0, 0)
+end_time = datetime.datetime(2018, 6, 11, 0, 0)
+ref_time = datetime.datetime(2014, 10, 1, 0, 0)
+calendar = 'gregorian'
+file_format = 'NETCDF4_CLASSIC'
+compression = False

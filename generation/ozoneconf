@@ -1,0 +1,11 @@
+model_version = '1.0.2'
+spatial_res = 0.25
+temporal_res = 0.05
+grid_width = 100
+grid_height = 100
+start_time = datetime.datetime(1998, 2, 1, 0, 0)
+end_time = datetime.datetime(1998, 2, 10, 0, 0)
+ref_time = datetime.datetime(1998, 2, 2, 0, 0)
+calendar = 'gregorian'
+file_format = 'NETCDF4_CLASSIC'
+compression = False

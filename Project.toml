@@ -1,0 +1,5 @@
+[deps]
+Conda = "8f4d0f93-b110-5947-807f-2305c1781a2d"
+ESDL = "359177bc-a543-11e8-11b7-bb015dba3358"
+ESDLPlots = "d555b242-3f29-57aa-84ea-3df92a135dfd"
+PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
