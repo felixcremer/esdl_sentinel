@@ -11,5 +11,5 @@ done
 
 We can use our version of esdl_core to generate a Sentinel1 cube with the command
 ```
-cube-gen s1cube_1day sentinel1:dir=/media/data/sen4redd/netcdf_test/subset_vv -c s1_config
+cube-gen s1cube_1day sentinel1:dir=/media/data/sen4redd/netcdf_test/ -c s1_config
 ```
