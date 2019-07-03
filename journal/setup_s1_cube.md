@@ -1,7 +1,13 @@
 Where is the cube-config?
 
+
+
 We are planning to use the NetCDF provider and prepare our Geotiffs by using
 gdalwarp.
+
+After preprocessing we need to use the spatialist stack function to prepare the geotiffs and crop them to one grid.
+
+
 To convert all geotiffs in a folder, use the following snippet in the shell.
 ```
 for file in *.tif; do
