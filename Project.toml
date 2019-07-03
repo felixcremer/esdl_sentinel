@@ -1,5 +1,9 @@
 [deps]
-Conda = "8f4d0f93-b110-5947-807f-2305c1781a2d"
+Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
 ESDL = "359177bc-a543-11e8-11b7-bb015dba3358"
 ESDLPlots = "d555b242-3f29-57aa-84ea-3df92a135dfd"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
+RecurrenceAnalysis = "639c3291-70d9-5ea2-8c5b-839eba1ee399"
+SentinelMissings = "b1dc47e8-ebfd-568c-9de9-431a7ef94af6"
+WeightedOnlineStats = "bbac0a1f-7c9d-5672-960b-c6ca726e5d5d"
+Zarr = "0a941bbe-ad1d-11e8-39d9-ab76183a1d99"
