@@ -1,3 +1,10 @@
 .idea
 generation/cubes
 .ipynb_checkpoints/
+tmp/
+generation/__pycache__/
+report/*
+!report/figs
+!report/*.tex
+!report/*.pdf
+
