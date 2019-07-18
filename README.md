@@ -8,4 +8,7 @@ In the generation folder you find everything to the generation of the Sentinel-1
 The report folder contains the .tex file and the figures for the report. 
 
 The Notebooks assume, that the original cube is in a cubes folder, this folder is not submitted, because of the size. 
+
+The sentinel-1 cube is till 2019/10/18 available at 
+https://upload.uni-jena.de/data/5d30ccbdd88bc1.12453671/s1cube_1dayallzarrbbnew.tar.gz
  
