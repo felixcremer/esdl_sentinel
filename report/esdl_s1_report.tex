@@ -66,19 +66,11 @@
 \begin{document}
 \maketitle
 %\tableofcontents
-\begin{abstract}
-  Forest ecosystems
-  REDD+ process
-  order of time series
-  SAR
 
-%Keywords:Recurrence, SAR, time series, remote sensing
-%
-\end{abstract}
 \section{Introduction}
-The tropical forest ecosystems stabilise the world climate\cite{},
-the protection of the biodiversity \cite{} and
-for the well being of a vast amount of the global population\cite{}.
+The tropical forest ecosystems stabilise the world climate,
+the protection of the biodiversity and
+for the well being of a vast amount of the global population.
 In the last decade remote sensing technologies have
 played a substantial role in the consistent,
 reliable and timely information gathering about forest cover changes.
@@ -87,11 +79,13 @@ and map deforestation and degradation processes increased.
 Forest/Non-Forest maps are mostly operationally
 if they are based on optical sensors. Especially in the tropics,
 the optical imaging is hindered by clouds.
-In this study we  propose a deforestation mapping approach based on SAR time
-series.
+In this study we  propose a deforestation mapping approach based on Synthetic Aparture Radar (SAR) time
+series which takes the order of the time series into account to generate yearly deforestation maps.
 
-Misses overview about established methods.
-Especially the percentile range
+For the data handling, we are using the Earth System Data Laboratory (ESDL) data cube. 
+This is the first time, that the ESDL data cube is used with data of very high resolution of 20mx20m.
+The ESDL data cube eases the data handling by semi automatically multi threading the data analysis and by handling the data management, 
+so that not the whole data set has to be loaded into the working memory. 
 
 \section{Method}
 
@@ -166,6 +160,7 @@ We test the separability of stable forest and deforestation on two testsites in 
 One is mostly covered by temperate forests in central Mexico,
 the other is situated on the Yucatan peninsula and is covered by tropical dry forests.
 Figure \ref{testsites} show very high resolution Pléiades data of the two testsites.
+In the following, we are focusing on the Hidalgo testsite in central Mexico. 
 
 \begin{figure}
   \includegraphics[width=0.8\textwidth]{figs/SEN4REDD_testsites.png}
@@ -191,7 +186,8 @@ This results in a nonparametric image transform that fully preserves the geometr
 
 
 \subsection{Ingestion into the ESDL datacube}
-We use the spatialist python package \cite{spatialist} to coregister all scenes in one raster grid in the DEM geometry after geocoding to achieve a subpixel coregistration precision.
+We use the spatialist python package \cite{spatialist} to coregister all scenes
+in one raster grid in the DEM geometry after geocoding to achieve a subpixel coregistration precision.
 This is of eminent importance when the pixels are investigated in the temporal domain only.
 This operation returns a list of geotiff files for all time steps.
 For the data ingestion we convert the geotiff files into netcdf files via gdalwarp.
@@ -258,21 +254,30 @@ Overall, the cross-pol data better suited to map deforestations than co-pol data
 
 \section{Discussion}
 
+In this work, we showed, that the RQA TREND metric is a good indicator for deforestations.
+We compared the RQA TREND to the range between the 5th and the 95th multitemporal percentile. 
+Because the RQA TREND is also using the order of the time series to derive information about the underlying land cover,
+it gives a clearer picture about deforestations. 
+
+
+
 The ESDL data cube enhances the work with large stacks of Sentinel-1 data by allowing to work with data on disk
 in contrast to only data which would fit into RAM.
 Furthermore, the ESDL infrastructure makes it very easy to use multithreading over the whole data stack. 
 This will make it possible, to redo the analysis on larger regions without having to deteriorate the spatial or temporal resolution.
 
-Due to issues in the geolocation of the ESDL data cubes for this high resolution and 
 
 \section{Outlook}
 We are going to tidy up the ESDL data cube generation scripts and are publishing them as an standalone python package. 
 Building on this, we want to integrate the ESDL data cube generation into pyroSAR, 
 so that the user has an easy access point to use Sentinel-1 data in the ESDL infrastracture. 
+This is especially relevant in the discussion about analysis ready data, which will further increase the uptake of SAR data. 
 
-We are going to redo the analysis 
 
-Redoing the analysis with the shapefiles completely in the datacube (this should be possible now)
+We are going to redo the analysis now that it is possible to use shapefiles together with the datacube. 
+Until now, we had to export our results, to analyse them further with in situ data. 
+Furthermore, we want to quantify the separability enhancement between deforestation and stable forest for RQA TREND compared to the prange. 
+And we are going to extend the analysis to the testsite in Yucatan. 
 
 
 
