@@ -11,4 +11,6 @@ The Notebooks assume, that the original cube is in a cubes folder, this folder i
 
 The sentinel-1 cube is till 2019/10/18 available at 
 https://upload.uni-jena.de/data/5d30ccbdd88bc1.12453671/s1cube_1dayallzarrbbnew.tar.gz
- 
+
+The Plotting notebook is not yet tested with the zarr cube, because the save cube function did not work. 
+
