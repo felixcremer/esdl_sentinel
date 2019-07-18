@@ -1,0 +1,286 @@
+\documentclass{article}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{siunitx}
+
+% *** CITATION PACKAGES ***
+%
+\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of the IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off
+% such as if a citation ever needs to be enclosed in parenthesis.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 5.0 (2009-03-20) and later if using hyperref.sty.
+% The latest version can be obtained at:
+% http://www.ctan.org/pkg/cite
+% The documentation is contained in the cite.sty file itself.
+
+\usepackage{booktabs}
+\usepackage{lscape}
+\usepackage{url}
+
+% *** MATH PACKAGES ***
+%
+\usepackage{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics.
+%
+% Note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/amsmath
+
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+%\usepackage[utf8]{inputenc}
+%\usepackage{helvet}
+%\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+%\usepackage{graphicx}
+%\usepackage{caption}
+%\usepackage{subcaption}
+%\usepackage{url}
+%\usepackage{amstext}
+% \usepackage{booktabs}
+
+%\bibliographystyle{IEEEtran}
+
+% Title Page
+\title{Using the ESDL data cube for Sentinel-1 time series for deforestation mapping with Recurrence Metrics}
+\author{Felix Cremer, Felix Glaser, Mikhail Urbazaev, and Christian Thiel}
+
+%\IEEEauthorblockA{Chair of Earth Observation, Friedrich-Schiller University, Jena,Germany\\
+%Email: felix.cremer@uni-jena.de}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\begin{abstract}
+  Forest ecosystems
+  REDD+ process
+  order of time series
+  SAR
+
+%Keywords:Recurrence, SAR, time series, remote sensing
+%
+\end{abstract}
+\section{Introduction}
+The tropical forest ecosystems stabilise the world climate\cite{},
+the protection of the biodiversity \cite{} and
+for the well being of a vast amount of the global population\cite{}.
+In the last decade remote sensing technologies have
+played a substantial role in the consistent,
+reliable and timely information gathering about forest cover changes.
+With the REDD+ mechanism the use of remote sensing to monitor
+and map deforestation and degradation processes increased.
+Forest/Non-Forest maps are mostly operationally
+if they are based on optical sensors. Especially in the tropics,
+the optical imaging is hindered by clouds.
+In this study we  propose a deforestation mapping approach based on SAR time
+series.
+
+Misses overview about established methods.
+Especially the percentile range
+
+\section{Method}
+
+\subsection{Recurrence Plots}
+
+Recurrence plots (RP) have been proposed by \cite{Eckmann}. They are a method to visualize the recurrences of a time series.
+They are defined as follows:
+$$R_{i,j} = \theta(\epsilon - \lvert x_i - x_j \rvert), i,j = 1,...,N$$
+hereby $\epsilon$ is a threshold value which indicates up to which distance two time steps are viewed as similar.
+$\theta$ is the Heaviside function which sets everything below zero to zero and every positive value to one.
+N is the number of time steps.
+This leads to a quadratic matrix with black dots where the time steps are similar to each other and white dots where they are distinct.
+The main diagonal is always black, because every time step is similar to itself.
+It is a nonlinear data analysis tool.
+Figure \ref{rplots} shows example Recurrence plots of a sum of two sine waves with different frequencies,
+a step function from three to zero with an overlaid white noise with standard deviation 1 and third a sine wave with overlaying trend.
+For the composition of two different frequencies we can see a regular pattern with distinguished diagonals which are indicating the frequency.
+In the noisy step function we see four distinct quadrants in the recurence plot.
+In the two quadrants near the main diagonal every point is randomly similar to other points in this part of the time series with a high probability.
+In the other two quadrants, the probability is low, that two points are similar to a point in the other part of the step function.
+In the third example, we see a clear pattern, but these patterns are fading out to the edge of the recurrence plot.
+This is due to the difference of the values at the beginning and the end of the time series.
+Therefore we can use this pattern as an indicator for a trend in the time series.
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{figs/rp_methods.png}
+  \caption{Recurrence Plots for a sine wave, a step function with noise, and a sine wave with trend.}
+  \label{rplots}
+\end{figure}
+
+These visual patterns can be quantified using recurrence quantification analysis (RQA)\cite{Zbilut}.
+The simplest measure is the recurrence rate (RR) which is the number of recurrences in a recurrence plot devided by the squared number of time steps.
+It measures the density of the recurrence points in a RP.
+Another measure is the trend.
+It is defined as
+$$ TREND= \frac{\sum_{\tau=1}^{\tilde{N}}(\tau - \tilde{N}/2)(RR_\tau - \langle RR_\tau \rangle)}{\sum_{\tau=1}^{\tilde{N}}(\tau - \tilde{N}/2)}.$$
+It is a linear regression coefficient over the recurrence rate of the diagonals in comparison to their distance to the main diagonal.
+It indicates if the process is drifting.
+For an in depth discussion of different RQA metrics see \cite{Marwan06}.
+All of the results have been produced using the Julia \mbox{RecurrenceAnalysis.jl} package which is part of DynamicalSystems.jl \cite{DynamicalSystems.jl-2018}.
+
+%\begin{landscape}
+%\renewcommand{\arraystretch}{2}
+%\begin{table}[]
+%\begin{tabular}{@{}lcc@{}}
+%\toprule
+% Name & Formula & Interpretation \\
+% \midrule
+% Recurrence Rate & $ RR= \frac{\sum\limits_{i,j=1}^N(R_{i,j})}{N^2} $ & Probability that a state of the system recurs.  \\
+% Determinism & $DET=\frac{\sum\limits_{l=lmin}^N(l P(l))}{\sum_{l=1}(l P(l))} $ & Measures the predictability of the signal.   \\
+% Average Length of Diagonal Structues & $dlavg=\frac{\sum_{l=lmin}(l P(l))}{\sum_{l=lmin}^{N}(P(l))}$  &  \\
+% Maximum Length of Diagonal Structures & $L_{max}=\max(l_i)$ &  \\
+% Divergence & $DIV=\frac{1}{L_{max}}$ &  \\
+% Entropy of diagonal structures & $ENTR=\sum\limits_{i=1}^N P(l_i) * log(P(l_i))$ &  \\
+% Trend & $ TREND=\frac{\sum_{\tau=1}^{\tilde{N}}(\tau - \tilde{N}/2)(RR_\tau - \langle RR_\tau \rangle)}{\sum_{\tau=1}^{\tilde{N}}(\tau - \tilde{N}/2)}$ &  \\
+% Laminarity & $LAM=\frac{\sum_{v=vmin}(v P(v))}{\sum_{v=1}^{N}(v P(v))}$ &  \\
+% Trapping time & $TT=\frac{\sum_{v=vmin}(v P(v))}{\sum_{v=vmin}^{N}(P(v))}$ &  \\
+% Maximum Length of vertical structures & $V_{max}=\max\limits_{i=1, ..., N}(v_i)$ &  \\
+% Entropy of vertical structures& $VENTR=\sum\limits_{i=1}^N P(v_i) * log(P(v_i))$ &  \\
+% Mean recurrence time & $MRT=\frac{\sum\limits_{i=1}^N(w_i P(w_i))}{\sum_{1}^{N}(P(w_i))}$  &  \\
+% Recurrence time entropy & $RTE =\sum\limits_{i=1}^N P(w_i) * log(P(w_i))$  & \\
+% Number of the most probable recurrence times & $NMPRT=\max w_i$ & \\ \bottomrule
+%\end{tabular}
+%\caption{Overview of Recurrence Quantification measures.}
+%\label{RQA_table}
+%\end{table}
+%\end{landscape}
+
+
+\section{Data preparation}
+We test the separability of stable forest and deforestation on two testsites in Mexico.
+One is mostly covered by temperate forests in central Mexico,
+the other is situated on the Yucatan peninsula and is covered by tropical dry forests.
+Figure \ref{testsites} show very high resolution Pléiades data of the two testsites.
+
+\begin{figure}
+  \includegraphics[width=0.8\textwidth]{figs/SEN4REDD_testsites.png}
+  \caption{The testsites are located in Mexico and are dominated by temperate forests (Hidalgo) and tropical dry forest(Kiuic).}
+  \label{testsites}
+\end{figure}
+
+\subsection{Preprocessing}
+
+We use the pyroSAR python package \cite{pyroSAR} to handle the raw data management and the data processing chain.
+This package allows to set a region of interest and returns  a consistently preprocessed stack of SAR scenes.
+For this preprocessing, we use the SNAP software \cite{SNAP} in version 6.
+The single time steps are multilooked to a \SI{10}{\m} x \SI{10}{\m} pixel spacing.
+The orthorectification is based on the original orbit state vectors and the \SI{30}{\m} SRTM digital elevation model\cite{SRTM}.
+The preprocessing also included radiometric terrain flattening after \cite{Small} which results in $\gamma^0$ backscatter values.
+
+\subsection{Speckle Filter}
+We have reduced the speckle noise and other unwanted short-term perturbations of the data using the filter described in \cite{Cremer2018}.
+The filter is based on the Empirical Mode Decomposition a data adaptive alternative to the fourier transformation which can handle non-stationary data.
+Each pixel is separately decomposed into intrinsic mode functions (IMFs) of different temporal frequencies. 
+In order to reduce the speckle, the two IMFs with the highest temporal frequencies are removed.
+This results in a nonparametric image transform that fully preserves the geometric resolution and has a similar speckle suppression than the Quegan 5x5 filter \cite{Quegan_2001}. 
+
+
+\subsection{Ingestion into the ESDL datacube}
+We use the spatialist python package \cite{spatialist} to coregister all scenes in one raster grid in the DEM geometry after geocoding to achieve a subpixel coregistration precision.
+This is of eminent importance when the pixels are investigated in the temporal domain only.
+This operation returns a list of geotiff files for all time steps.
+For the data ingestion we convert the geotiff files into netcdf files via gdalwarp.
+We then use an own data provider which is a subclass of the NetCDFCubeSourceProvider class.
+Currently this provider is avaliable in a fork of the esdl-core package at \\
+\url{https://github.com/felixcremer/esdl-core/blob/S1Prov/esdl/providers/sentinel1.py}
+and we plan to release it as an own submodule.
+
+For every time step cross-polarized as well as co-polarized data are available from Sentinel-1.
+For this study we seperated the data into the ascending and descending orbits.
+In the future we would like to give the possibility to seperate the data due to the relative orbit of the acquisition,
+because the different orbits have different local incidence angles and this leads to different backscatter properties.
+
+Since we want to keep the irregular time series of the underlying data intact, we are using a time axis with one day intervals.
+One day intervals are not yet working, because the generation script assumes intervals of multiple days.
+See issue url for further information.
+There are only scenes with values in every variable.
+For further processing of the data, the time axes could be rearranged to only contain valid data,
+but we found that for pure multitemporal analyses it is faster to use the original stack and implement the analysis functions so that they skip missing values. 
+
+
+
+
+\section{Experimental Results}
+
+Figure \ref{rpforest} shows the recurrence plots of a neighbourhood of examplary forest and deforestation areas.
+The upper figures shows the VH time series of a 7x7 matrix of a deforested area (left) and a stable forest (right) with the mean of these pixels in red respectively green.
+The bottom figures show the grayscale of the corresponding recurrence plots.
+Black points are similar in every pixel of the neighborhood and white points in none.
+There is a clear drop in the backscatter time series of the deforested area, but then the signal is going up to a similar level than before the deforestation.
+In the Recurrence Plot this change is visible as large white areas in the corners of the recurrence plots. 
+In the forest, the signal is stable which is visible in the recurrence plot as a white noise, because of the small differences in the backscatter in every time step.
+
+
+
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{figs/S1_Hidalgo_timestack_20km_VH___lin_20_test_tandemdem12_rp_deffor_3.png}
+  \caption{Recurrence Plots for a 3x3 matrix of deforestated(left) and stable forest(right) pixels.
+           The gray lines in the above figure are all pixels and the colored line is the mean of these pixels.}
+  \label{rpforest}
+\end{figure}
+
+Figure \ref{trend} shows the RQA TREND statistic from two year VH data from march 2017 till march 2019 in comparison to the range between the multitemporal 5th to 95th percentile (prange)..
+For this time frame are 187 time steps available.
+The red polygons are deforestations which happened between september 2016 and october 2017 and the violet ones deforestations between October 2017 and July 2018.
+The later deforestations which are fully in our sensing period are distinctly visible as clear black areas in the RQA TREND metric. 
+The EMD filter reduces the pixel inside the deforestation areas which are having a low RQA TREND metric especially in the left polygon in VV data. . 
+In the prange metric from the original data is no clear difference visible between the deforested areas and the surrounding stable forest areas. 
+Applying the EMD filter makes the deforestations visible.
+The earlier deforestations are also partly visible, because the deforestations happened in the beginning of the sensing period.
+Therefore the 95th percentile by the still standing forest and the 5th percentile is dominated by the already deforested signal.
+The prange metric gains especially from the temporal denoising by the EMD filter. 
+Overall, the cross-pol data better suited to map deforestations than co-pol data.
+
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{figs/rqa_trend_0317_0319.png}
+  \caption{RQA TREND statistic.  The red polygons are deforestations between October 2017 and July 2018 and the green polygons are stable forest areas.
+  These polygons have been select from VHR Pleiades data.}
+  \label{trend}
+\end{figure}
+
+
+\section{Discussion}
+
+The ESDL data cube enhances the work with large stacks of Sentinel-1 data by allowing to work with data on disk
+in contrast to only data which would fit into RAM.
+Furthermore, the ESDL infrastructure makes it very easy to use multithreading over the whole data stack. 
+This will make it possible, to redo the analysis on larger regions without having to deteriorate the spatial or temporal resolution.
+
+Due to issues in the geolocation of the ESDL data cubes for this high resolution and 
+
+\section{Outlook}
+We are going to tidy up the ESDL data cube generation scripts and are publishing them as an standalone python package. 
+Building on this, we want to integrate the ESDL data cube generation into pyroSAR, 
+so that the user has an easy access point to use Sentinel-1 data in the ESDL infrastracture. 
+
+We are going to redo the analysis 
+
+Redoing the analysis with the shapefiles completely in the datacube (this should be possible now)
+
+
+
+\section*{Acknowledgment}
+This work uses Copernicus Sentinel data 2017-2019.
+
+
+\bibliographystyle{ieeetr}
+\bibliography{literatur}
+
+\end{document}
